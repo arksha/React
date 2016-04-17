@@ -7,7 +7,7 @@ var Note = React.createClass({
     },
     save: function() {
 		var textnote = this.refs.newvalue.getDOMNode().value;
-		alert("Are you going to save" + textnote);
+		alert("Are you going to save " + textnote);
         this.setState({editing: false});
     },
     remove: function() {
@@ -45,5 +45,20 @@ var Note = React.createClass({
     }
 });
 
-React.render(<Note>Hello World</Note>, 
+var Board = React.createClass({
+	propTypes: {
+		count: function(props, propName){
+			if(typeof props[propName]!=="number"){
+				return new Error("count property should be a number");
+			}
+			if(typeof props[propName]>100){
+				return new Error("creating " + propName + "is too high");
+			}
+		}	
+	},
+	render: function(){
+		return <div className="board">{this.props.count}</div>
+	}
+});
+React.render(<Board count={10}/>, 
     document.getElementById('react-container'));
