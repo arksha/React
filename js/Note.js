@@ -6,12 +6,11 @@ var Note = React.createClass({
         this.setState({editing: true});
     },
     save: function() {
-		var textnote = this.refs.newvalue.getDOMNode().value;
-		alert("Are you going to save " + textnote);
+		this.props.onChange(this.refs.newvalue.getDOMNode().value,this.props.index);//invoke onChange to get update function invoke
         this.setState({editing: false});
     },
     remove: function() {
-        alert('removing note');
+        this.props.onRemove(this.props.index);
     },
     renderDisplay: function() {
         return (
@@ -62,19 +61,38 @@ var Board = React.createClass({
 				"call mom",
 				"go swimming",
 				"get mail",
-				"finish HW4"
+				"finish HW4",
+				"not only state can inherit from parents, props can also inerit"
 			]
 	
 		};
 	},
+	update: function(newvalue,i){
+		var arr = this.state.notes;
+		arr[i] = newvalue;
+		this.setState({notes: arr});//notes : ??
+		
+	},
+	remove: function(i){
+		var arr = this.state.notes;
+		arr.splice(i,1);
+		this.setState({notes:arr});
+	},
+	eachnote:function(note,i){
+		//is going to return each note instead of put it in render funciton
+		return(
+			<Note key={i}
+				index={i}
+				onChange={this.update}
+				onRemove={this.remove}
+			>{note}</Note>
+		);
+	},
 	render: function(){
 		return (<div className="board">
-				{this.state.notes.map(function(note,i){
-					return(
-						<Note key={i}>{note}</Note>
-					);
-				})}
+				{this.state.notes.map(this.eachnote)}
 				</div>);
+	//use eachnote function to show
 	}
 });
 React.render(<Board count={10}/>, 
