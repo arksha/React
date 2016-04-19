@@ -57,18 +57,16 @@ var Board = React.createClass({
 	},
 	getInitialState: function(){
 		return {
-			notes:[
-				"call mom",
-				"go swimming",
-				"get mail",
-				"finish HW4",
-				"not only state can inherit from parents, props can also inerit"
-			]
-	
+			notes:[]
 		};
 	},
-	update: function(newvalue,i){
+	add: function(text){
 		var arr = this.state.notes;
+		arr.push(text)//use push to get added text into notes
+		this.setState({note:arr});//what is the parameter in setState?
+	},
+	update: function(newvalue,i){
+		var arr = this.state.notes;//why track notes changes state like this?
 		arr[i] = newvalue;
 		this.setState({notes: arr});//notes : ??
 		
@@ -91,6 +89,8 @@ var Board = React.createClass({
 	render: function(){
 		return (<div className="board">
 				{this.state.notes.map(this.eachnote)}
+				<button className="btn btn-sm glyphicon glyphicon-plus"
+						onClick={this.add}></button>
 				</div>);
 	//use eachnote function to show
 	}
