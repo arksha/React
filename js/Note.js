@@ -82,6 +82,18 @@ var Board = React.createClass({
 		this.uniqueId = this.uniqueId || 0;
 		return this.uniqueId ++;
 	},
+	componentWillMount: function(){
+		var self = this;//deal with diff notes
+		if(this.props.count){
+			$.getJSON("http://baconipsum.com/api/?type=all-meat&sentences="
+					 + this.props.count + "&start-with-lorem=1&callback=?", function(results){
+							results[0].split('. ').forEach(function(sentence){
+								self.add(sentence.substring(0,40));
+							});
+			});
+		}
+		
+	},
 	add: function(text){
 		var arr = this.state.notes;
 		arr.push({
@@ -120,5 +132,5 @@ var Board = React.createClass({
 	//use eachnote function to show
 	}
 });
-React.render(<Board count={10}/>, 
+React.render(<Board count={50}/>, 
     document.getElementById('react-container'));
