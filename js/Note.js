@@ -12,6 +12,9 @@ var Note = React.createClass({
             transform: 'rotate(' + this.randomBetween(-15, 15) + 'deg)'
         };
     },
+	componentDidMount: function(){
+		$(this.getDOMNode()).draggable();
+	},
     randomBetween: function(min, max) {
 		//create a random number between 2 numbers to get random position of notes
         return (min + Math.ceil(Math.random() * max));
